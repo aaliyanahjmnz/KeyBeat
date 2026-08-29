@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip successSound;
     public AudioClip failSound;
     private AudioSource audioSource;
+
+    public SpriteRenderer ring;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,11 +40,13 @@ public class PlayerController : MonoBehaviour
                     NoteMovement noteMovement = note.GetComponent<NoteMovement>();
                     if (noteMovement != null && noteMovement.GetKeyCode() == key)
                     {
-                        if (IsInHitWindow(note.GetComponent<NoteMovement>().hitpoint))
+                        if (IsInHitWindow(noteMovement.hitpoint))
                         {
                             Debug.Log($"Hit note with key: {key}");
                             controller.score += 10;
                             audioSource.PlayOneShot(successSound);
+                            Flash(Color.green);
+                            noteMovement.DestroyNote();
                         }
                         else
                         {
@@ -49,6 +54,8 @@ public class PlayerController : MonoBehaviour
                             controller.lives--;
                             controller.livesText.text = $"Lives: {controller.lives}";
                             audioSource.PlayOneShot(failSound);
+                            Flash(Color.red);
+                            noteMovement.DestroyNote();
                         }
                         // Handle the correct key press for the note
                         GameController.activeNotes.Remove(note);
@@ -66,5 +73,21 @@ public class PlayerController : MonoBehaviour
         float distance = Vector3.Distance(noteTransform.position, player.position);
 
         return distance >= minRange && distance <= maxRange;
+    }
+
+    public void Flash(Color color)
+    {
+        StartCoroutine(FlashRoutine(color));
+    }
+
+    private IEnumerator FlashRoutine(Color color)
+    {
+        Color originalColor = ring.color;
+
+        ring.color = color;
+
+        yield return new WaitForSeconds(0.25f);
+
+        ring.color = originalColor;
     }
 }
