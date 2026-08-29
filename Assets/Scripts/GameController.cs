@@ -31,11 +31,14 @@ public class GameController : MonoBehaviour
 
     public GameObject gameOverPanel;
 
+    public TMP_Text highScoreText;
+
     private void Start()
     {
         noteSpawnRate = GameSettings.NoteSpawnRate; // Set the spawn rate from GameSettings
         Time.timeScale = 1f;
         activeNotes.Clear();
+        highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
 
         isGameOver = false;
         score = 0;
@@ -94,7 +97,21 @@ public class GameController : MonoBehaviour
     {
         CancelInvoke(nameof(SpawnObject));
         gameOverPanel.SetActive(true);
+        SaveHighScore();
+
         Time.timeScale = 0f; // Pause the game
+    }
+
+    public void SaveHighScore()
+    {
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScoreText.text = "High Score: " + highScore;
+
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save();
+        }
     }
 
     public void Replay()
