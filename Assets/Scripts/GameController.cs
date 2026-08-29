@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public static List<GameObject> activeNotes = new List<GameObject>();
 
     public float noteSpawnRadius = 1f;
-    public float noteSpawnRate = 1f; // spawn a note every second
+    private float noteSpawnRate; // spawn a note every second
 
     public Transform player;
     public GameObject note;
@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        noteSpawnRate = GameSettings.NoteSpawnRate; // Set the spawn rate from GameSettings
         Time.timeScale = 1f;
         activeNotes.Clear();
 
