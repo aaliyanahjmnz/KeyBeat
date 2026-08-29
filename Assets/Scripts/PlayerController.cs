@@ -17,11 +17,20 @@ public class PlayerController : MonoBehaviour
 
     public SpriteRenderer ring;
 
+    private SpriteRenderer sr;
+    public Sprite happyCat;
+    public Sprite sadCat;
+    public Sprite idleCat;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(gameMusic);
+
+        sr = GetComponent<SpriteRenderer>();
+        sr.sprite = idleCat;
+
     }
 
     // Update is called once per frame
@@ -42,19 +51,17 @@ public class PlayerController : MonoBehaviour
                     {
                         if (IsInHitWindow(noteMovement.hitpoint))
                         {
-                            Debug.Log($"Hit note with key: {key}");
                             controller.score += 10;
                             audioSource.PlayOneShot(successSound);
-                            Flash(Color.green);
+                            Flash(Color.green, happyCat);
                             noteMovement.DestroyNote();
                         }
                         else
                         {
-                            Debug.Log($"Missed note with key: {key}");
                             controller.lives--;
                             controller.livesText.text = $"Lives: {controller.lives}";
                             audioSource.PlayOneShot(failSound);
-                            Flash(Color.red);
+                            Flash(Color.red, sadCat);
                             noteMovement.DestroyNote();
                         }
                         // Handle the correct key press for the note
@@ -75,19 +82,23 @@ public class PlayerController : MonoBehaviour
         return distance >= minRange && distance <= maxRange;
     }
 
-    public void Flash(Color color)
+    public void Flash(Color color, Sprite sprite)
     {
-        StartCoroutine(FlashRoutine(color));
+        StartCoroutine(FlashRoutine(color, sprite));
     }
 
-    private IEnumerator FlashRoutine(Color color)
+    private IEnumerator FlashRoutine(Color color, Sprite sprite)
     {
         Color originalColor = ring.color;
+        sr.sprite = sprite;
 
         ring.color = color;
 
         yield return new WaitForSeconds(0.25f);
 
         ring.color = originalColor;
+
+        yield return new WaitForSeconds(0.15f);
+        sr.sprite = idleCat;
     }
 }

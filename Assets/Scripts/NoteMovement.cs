@@ -15,6 +15,7 @@ public class NoteMovement : MonoBehaviour
 
     private GameController gameController;
     private AudioController audioController;
+    private PlayerController playerController;
 
     public ParticleSystem shatterEffect;
     private SpriteRenderer sr;
@@ -25,6 +26,7 @@ public class NoteMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         audioController = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         sr = GetComponent<SpriteRenderer>();
         this.key = InitialiseKeyCode();
         letterText.text = key.ToString();
@@ -57,6 +59,7 @@ public class NoteMovement : MonoBehaviour
             gameController.lives--;
             gameController.livesText.text = $"Lives: {gameController.lives}";
             audioController.PlaySound(audioController.failNoise);
+            playerController.Flash(Color.red, playerController.sadCat);
             Destroy(gameObject);
         }   
     }
