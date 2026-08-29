@@ -7,13 +7,20 @@ public class NoteMovement : MonoBehaviour
 {
 
     private Transform player;
+
+    public Transform hitpoint;
     public float moveSpeed = 5f;
     private KeyCode key;
     public TMP_Text letterText;
 
+    private GameController gameController;
+    private AudioController audioController;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        audioController = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
         this.key = InitialiseKeyCode();
         letterText.text = key.ToString();
 
@@ -35,6 +42,9 @@ public class NoteMovement : MonoBehaviour
         {
             // Handle collision with player (e.g., destroy the note)
             GameController.activeNotes.Remove(this.gameObject);
+            gameController.lives--;
+            gameController.livesText.text = $"Lives: {gameController.lives}";
+            audioController.PlaySound(audioController.failNoise);
             Destroy(gameObject);
         }   
     }
@@ -48,5 +58,5 @@ public class NoteMovement : MonoBehaviour
     public KeyCode GetKeyCode()
     {
         return key;
-    }   
+    }
 }
