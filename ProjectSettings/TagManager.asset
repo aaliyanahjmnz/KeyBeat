@@ -51,6 +51,9 @@ TagManager:
   - name: Notes
     uniqueID: 809493477
     locked: 0
+  - name: UI
+    uniqueID: 1145307851
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []
