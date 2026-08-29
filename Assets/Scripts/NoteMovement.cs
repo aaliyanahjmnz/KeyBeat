@@ -1,19 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class NoteMovement : MonoBehaviour
 {
+
     private Transform player;
+
+    public Transform hitpoint;
     public float moveSpeed = 5f;
     private KeyCode key;
     public TMP_Text letterText;
 
+    private GameController gameController;
+    private AudioController audioController;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        audioController = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
         this.key = InitialiseKeyCode();
         letterText.text = key.ToString();
+
+        GameController.activeNotes.Add(this.gameObject);
     }   
 
     private void Update()
@@ -30,6 +41,10 @@ public class NoteMovement : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // Handle collision with player (e.g., destroy the note)
+            GameController.activeNotes.Remove(this.gameObject);
+            gameController.lives--;
+            gameController.livesText.text = $"Lives: {gameController.lives}";
+            audioController.PlaySound(audioController.failNoise);
             Destroy(gameObject);
         }   
     }
@@ -38,5 +53,10 @@ public class NoteMovement : MonoBehaviour
     {
        KeyCode randomKey = (KeyCode)Random.Range((int)KeyCode.A, (int)KeyCode.Z + 1);
        return randomKey;
+    }
+
+    public KeyCode GetKeyCode()
+    {
+        return key;
     }
 }
