@@ -16,13 +16,25 @@ public class NoteMovement : MonoBehaviour
     private GameController gameController;
     private AudioController audioController;
 
+    public ParticleSystem shatterEffect;
+    private SpriteRenderer sr;
+    private Color currentColor;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         audioController = GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>();
+        sr = GetComponent<SpriteRenderer>();
         this.key = InitialiseKeyCode();
         letterText.text = key.ToString();
+        Color randomColor = Random.ColorHSV(
+        0f, 1f,     // Hue
+        0.7f, 1f,   // Saturation
+        0.7f, 1f    // Value (brightness)
+    );
+
+        sr.color = randomColor;
 
         GameController.activeNotes.Add(this.gameObject);
     }   
@@ -58,5 +70,20 @@ public class NoteMovement : MonoBehaviour
     public KeyCode GetKeyCode()
     {
         return key;
+    }
+
+    public void DestroyNote()
+    {
+        ParticleSystem ps =Instantiate(
+            shatterEffect,
+            transform.position,
+            Quaternion.identity
+        );
+
+        var main = ps.main;
+        main.startColor = sr.color;
+
+
+        Destroy(gameObject);
     }
 }
