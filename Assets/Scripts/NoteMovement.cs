@@ -1,13 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class NoteMovement : MonoBehaviour
 {
     private Transform player;
     public float moveSpeed = 5f;
+    private KeyCode key;
+    public TMP_Text letterText;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        this.key = InitialiseKeyCode();
+        letterText.text = key.ToString();
     }   
 
     private void Update()
@@ -26,5 +32,11 @@ public class NoteMovement : MonoBehaviour
             // Handle collision with player (e.g., destroy the note)
             Destroy(gameObject);
         }   
+    }
+
+    private KeyCode InitialiseKeyCode()
+    {
+       KeyCode randomKey = (KeyCode)Random.Range((int)KeyCode.A, (int)KeyCode.Z + 1);
+       return randomKey;
     }
 }
