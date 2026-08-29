@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameController : MonoBehaviour
 {
@@ -6,19 +7,35 @@ public class GameController : MonoBehaviour
     //set note spawn speed
     //spawn notes at a random location at a set speed   
 
-    private Vector2 noteSpawnLocation;
+    public float noteSpawnRadius = 1f;
     public float noteSpawnRate = 1f; // spawn a note every second
-    public float spawnX
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Transform player;
+    public GameObject note;
+   
+    private void Start()
     {
-        
+        InvokeRepeating(nameof(SpawnObject), 0f, noteSpawnRate);
+    }
+
+    private void SpawnObject()
+    {
+        // Random point within a circle
+        Vector3 spawnPosition = GetRandomSpawnPointOnEdge();
+
+        Instantiate(note, spawnPosition, Quaternion.identity);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public Vector3 GetRandomSpawnPointOnEdge()
+    {
+        Vector2 randomDir = Random.insideUnitCircle.normalized;
+
+        return player.position + new Vector3(randomDir.x * noteSpawnRadius, randomDir.y * noteSpawnRadius, 0f); 
     }
 }
