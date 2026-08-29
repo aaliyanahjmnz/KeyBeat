@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     public static List<GameObject> activeNotes = new List<GameObject>();
 
     public float noteSpawnRadius = 1f;
+
+    [SerializeField]
     private float noteSpawnRate; // spawn a note every second
 
     public Transform player;

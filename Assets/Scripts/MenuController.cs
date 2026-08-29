@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     {
         difficultySlider.minValue = 0f;
         difficultySlider.maxValue = 1f;
-        difficultySlider.value = 1f;
+        difficultySlider.value = 0.5f;
 
         UpdateDifficulty();
     }
