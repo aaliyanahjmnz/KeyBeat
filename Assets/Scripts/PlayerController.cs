@@ -36,7 +36,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(controller.isGameOver) return;
+        if (controller.isGameOver)
+        {
+            sr.sprite = sadCat;
+
+            return;
+        }
 
         foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
         {

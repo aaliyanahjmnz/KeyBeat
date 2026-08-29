@@ -1,8 +1,9 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -26,8 +27,16 @@ public class GameController : MonoBehaviour
 
     public bool isGameOver = false;
 
+    public GameObject gameOverPanel;
+
     private void Start()
     {
+        Time.timeScale = 1f;
+        activeNotes.Clear();
+
+        isGameOver = false;
+        score = 0;
+        gameOverPanel.SetActive(false);
         WaitForTime(startWaitTime);
         InvokeRepeating(nameof(SpawnObject), 0f, noteSpawnRate);
 
@@ -57,7 +66,7 @@ public class GameController : MonoBehaviour
         if(isGameOver)
         {
             // Stop spawning notes when the game is over
-            CancelInvoke(nameof(SpawnObject));
+            GameOver();
         }
 
         if(score<0)
@@ -77,4 +86,25 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
     }
+
+    public void GameOver()
+    {
+        CancelInvoke(nameof(SpawnObject));
+        gameOverPanel.SetActive(true);
+        Time.timeScale = 0f; // Pause the game
+    }
+
+    public void Replay()
+    {
+        Debug.Log("Button pressed");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
 }
+
