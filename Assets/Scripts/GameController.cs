@@ -30,6 +30,8 @@ public class GameController : MonoBehaviour
     {
         WaitForTime(startWaitTime);
         InvokeRepeating(nameof(SpawnObject), 0f, noteSpawnRate);
+
+        livesText.text = "Lives: " + lives;
     }
 
     private void SpawnObject()
