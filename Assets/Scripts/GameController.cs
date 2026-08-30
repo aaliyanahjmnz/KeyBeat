@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public static List<GameObject> activeNotes = new List<GameObject>();
 
     public float noteSpawnRadius = 1f;
+    public GameObject pauseButton;
 
     [SerializeField]
     private float noteSpawnRate; // spawn a note every second
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
         isGameOver = false;
         score = 0;
         gameOverPanel.SetActive(false);
+        pauseButton.SetActive(true);
         WaitForTime(startWaitTime);
         InvokeRepeating(nameof(SpawnObject), 0f, noteSpawnRate);
 
@@ -97,6 +99,7 @@ public class GameController : MonoBehaviour
     {
         CancelInvoke(nameof(SpawnObject));
         gameOverPanel.SetActive(true);
+        pauseButton.SetActive(false);
         SaveHighScore();
 
         Time.timeScale = 0f; // Pause the game
