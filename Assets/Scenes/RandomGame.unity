@@ -1000,7 +1000,7 @@ MonoBehaviour:
   maxRange: 2
   controller: {fileID: 1334965977}
   player: {fileID: 757892267}
-  gameMusic: {fileID: 8300000, guid: d4475537b75e7724eaa98b782f562b14, type: 3}
+  gameMusic: {fileID: 8300000, guid: 25dda7548097af642927879f359cc315, type: 3}
   successSound: {fileID: 8300000, guid: 04ad74e057381234fb42a05f85703c5a, type: 3}
   failSound: {fileID: 8300000, guid: 8232e060213be7f46b9aae223fe4450f, type: 3}
   ring: {fileID: 1275572798}
@@ -1022,7 +1022,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1727,6 +1727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   noteSpawnRadius: 5
+  pauseButton: {fileID: 1778517525}
   noteSpawnRate: 2
   player: {fileID: 757892267}
   note: {fileID: 2761277012777862803, guid: ff095bec7bd62d24c887833abff3f71c, type: 3}

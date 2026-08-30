@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip gameMusic;
     public AudioClip successSound;
     public AudioClip failSound;
+
     private AudioSource audioSource;
 
     public SpriteRenderer ring;
